@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanuchan — Outils Excel & Automatisation IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0A0A0A;--ink2:#1A1A2E;--blue:#1B4FD8;--blue2:#3B6EF8;
+  --bluesoft:#EEF3FF;--cream:#FAFAF7;--warm:#F5F0E8;
+  --border:#E2E2DA;--muted:#6B6B6B;--white:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream);overflow-x:hidden}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5vw;height:64px;
+  background:rgba(250,250,247,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--ink);text-decoration:none}
+.logo em{color:var(--blue);font-style:normal}
+.nav-r{display:flex;align-items:center;gap:28px}
+.nav-r a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-r a:hover{color:var(--ink)}
+.nav-btn{background:var(--ink) !important;color:var(--white) !important;padding:9px 22px;border-radius:100px;transition:background .2s !important}
+.nav-btn:hover{background:var(--blue) !important}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:64px}
+.hero-l{padding:80px 5vw 80px 8vw;background:var(--cream);display:flex;flex-direction:column;justify-content:center}
+.hero-r{
+  background:var(--ink2);display:flex;align-items:center;justify-content:center;
+  padding:80px 4vw;position:relative;overflow:hidden;
+}
+.hero-r::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(27,79,216,0.25) 0%,transparent 70%)}
+.hero-r::after{content:'';position:absolute;bottom:-150px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(59,110,248,0.12) 0%,transparent 70%)}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--white);color:var(--muted);font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;margin-bottom:28px;width:fit-content}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(40px,4vw,62px);font-weight:800;line-height:1.0;letter-spacing:-2px;color:var(--ink);margin-bottom:8px}
+h1 .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--blue);letter-spacing:-1px}
+.hero-sub{font-size:16px;color:var(--muted);max-width:420px;margin:24px 0 40px;line-height:1.75}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-dark{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--white);padding:14px 28px;border-radius:100px;font-size:14px;font-weight:500;text-decoration:none;transition:background .2s,transform .2s}
+.btn-dark:hover{background:var(--blue);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);padding:13px 28px;border-radius:100px;border:1px solid var(--border);font-size:14px;font-weight:500;text-decoration:none;transition:border-color .2s,transform .2s}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.excel-mock{background:var(--white);border-radius:16px;overflow:hidden;width:100%;max-width:460px;box-shadow:0 32px 80px rgba(0,0,0,0.4);position:relative;z-index:1;animation:floatY 5s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.mock-bar{background:#1E1E2E;padding:12px 16px;display:flex;align-items:center;gap:7px}
+.mdot{width:10px;height:10px;border-radius:50%}
+.mock-title{color:#666;font-size:11px;margin-left:8px}
+.mock-tabs{background:#F8F8F8;border-bottom:1px solid #E5E5E5;display:flex;overflow:hidden}
+.mock-tab{padding:8px 12px;font-size:10px;font-weight:600;color:#999;border-right:1px solid #E5E5E5;white-space:nowrap}
+.mock-tab.a{background:white;color:var(--blue)}
+.mock-body{padding:14px}
+.mock-thead{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;background:var(--bluesoft);border-radius:6px;padding:7px 10px;margin-bottom:4px;font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px}
+.mock-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:9px 10px;border-radius:6px;font-size:11px;align-items:center;transition:background .15s}
+.mock-row:nth-child(even){background:#FAFAFA}
+.mock-row:hover{background:var(--bluesoft)}
+.pill{display:inline-block;padding:2px 8px;border-radius:100px;font-size:9px;font-weight:700}
+.pill.g{background:#DCFCE7;color:#15803D}
+.pill.y{background:#FEF9C3;color:#A16207}
+.pill.r{background:#FEE2E2;color:#B91C1C}
+.mscore{font-weight:700;color:var(--blue);font-size:12px}
+.mock-alert{margin-top:10px;padding:10px 12px;border-radius:8px;background:#FEF3C7;border:1px solid #FDE68A;font-size:11px;color:#92400E}
+
+/* TRUST */
+.trust{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:24px 8vw;display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);font-weight:500}
+
+/* SERVICES */
+.services{padding:100px 8vw;background:var(--cream)}
+.section-tag{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(30px,3.5vw,46px);letter-spacing:-1.5px;color:var(--ink);margin-bottom:12px;line-height:1.05}
+.section-sub{font-size:16px;color:var(--muted);max-width:480px;margin-bottom:56px;line-height:1.7}
+.svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.svc{background:var(--white);padding:36px 28px;transition:background .25s;position:relative}
+.svc:hover{background:var(--ink2)}
+.svc:hover .svc-n{color:rgba(255,255,255,.1)}
+.svc:hover .svc-t{color:var(--white)}
+.svc:hover .svc-d{color:#94A3B8}
+.svc:hover .tag{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
+.svc-n{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:var(--border);line-height:1;margin-bottom:16px;transition:color .25s}
+.svc-t{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:8px;transition:color .25s}
+.svc-d{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;transition:color .25s}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{background:var(--bluesoft);color:var(--blue);font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;transition:background .25s,color .25s}
+
+/* PRODUITS */
+.products{padding:100px 8vw;background:var(--ink2)}
+.products h2{color:var(--white)}
+.products .section-tag{color:#60A5FA}
+.products .section-sub{color:#94A3B8}
+.prods{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:56px}
+.prod{background:#111827;border:1px solid rgba(255,255,255,.07);border-radius:20px;overflow:hidden;transition:transform .25s,border-color .25s;position:relative}
+.prod:hover{transform:translateY(-6px);border-color:rgba(27,79,216,.5)}
+.prod.hot{border-color:rgba(27,79,216,.35)}
+.prod-badge{position:absolute;top:14px;right:14px;background:var(--blue);color:var(--white);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:100px;z-index:2}
+.prod-img{height:180px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.i1{background:linear-gradient(135deg,#0F2027,#203A43,#2C5364)}
+.i2{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)}
+.i3{background:linear-gradient(135deg,#0d1117,#161b22,#1f2937)}
+.i4{background:linear-gradient(135deg,#0a0a0a,#1a1a2e,#0f2027)}
+.glow{position:absolute;width:180px;height:180px;border-radius:50%}
+.glow.b{background:radial-gradient(circle,rgba(27,79,216,.35) 0%,transparent 70%)}
+.glow.g{background:radial-gradient(circle,rgba(16,185,129,.25) 0%,transparent 70%)}
+.glow.p{background:radial-gradient(circle,rgba(139,92,246,.25) 0%,transparent 70%)}
+.glow.a{background:radial-gradient(circle,rgba(245,158,11,.2) 0%,transparent 70%)}
+.prod-emoji{font-size:52px;position:relative;z-index:1}
+.prod-body{padding:24px}
+.prod-body h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:8px}
+.prod-body p{font-size:13px;color:#94A3B8;line-height:1.65;margin-bottom:16px}
+.feats{display:flex;flex-direction:column;gap:5px;margin-bottom:20px}
+.feat{display:flex;align-items:center;gap:8px;font-size:12px;color:#CBD5E1}
+.feat::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue2);flex-shrink:0}
+.prod-foot{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid rgba(255,255,255,.06)}
+.price{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--white)}
+.price span{font-size:12px;color:#64748B;font-family:'DM Sans',sans-serif;font-weight:400}
+.btn-buy{background:var(--blue);color:var(--white);padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;text-decoration:none;transition:background .2s,transform .2s;display:inline-flex;align-items:center;gap:5px}
+.btn-buy:hover{background:var(--blue2);transform:translateY(-1px)}
+.btn-soon{background:rgba(255,255,255,.05);color:#64748B;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:500;cursor:default}
+
+.custom-cta{margin-top:28px;padding:36px 40px;background:rgba(27,79,216,.1);border:1px solid rgba(27,79,216,.25);border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.custom-cta h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--white)}
+.custom-cta p{color:#94A3B8;font-size:14px;margin-top:6px}
+.btn-white{background:var(--white);color:var(--ink);padding:14px 30px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;white-space:nowrap;transition:transform .2s,background .2s}
+.btn-white:hover{background:var(--bluesoft);transform:translateY(-2px)}
+
+/* HOW */
+.how{padding:100px 8vw;background:var(--warm)}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:56px}
+.step{text-align:center}
+.step-n{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:19px;color:var(--ink);margin:0 auto 18px;transition:background .2s,color .2s}
+.step:hover .step-n{background:var(--ink);color:var(--white)}
+.step h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px}
+.step p{font-size:13px;color:var(--muted);line-height:1.65}
+
+/* CONTACT */
+.contact{padding:100px 8vw;background:var(--ink2)}
+.contact-inner{max-width:600px;margin:0 auto;text-align:center}
+.contact h2{color:var(--white)}
+.contact .section-tag{color:#60A5FA}
+.contact .section-sub{color:#94A3B8;margin:0 auto 44px}
+.ccard{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:44px}
+.copts{display:flex;flex-direction:column;gap:10px}
+.copt{display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);text-decoration:none;color:var(--white);font-size:14px;font-weight:500;transition:border-color .2s,background .2s}
+.copt:hover{border-color:rgba(27,79,216,.5);background:rgba(27,79,216,.08)}
+.cicon{width:38px;height:38px;border-radius:10px;background:rgba(27,79,216,.18);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.cinfo{text-align:left}
+.clabel{font-size:11px;color:#64748B;margin-bottom:2px}
+.cval{font-size:14px;color:var(--white);font-weight:500}
+
+footer{background:#080808;padding:28px 8vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer p{font-size:12px;color:#374151}
+.flogo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#374151}
+.flogo em{color:#1B4FD8;font-style:normal}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .hero-r{display:none}
+  .svcs{grid-template-columns:1fr}
+  .prods{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:repeat(2,1fr)}
+  .trust{gap:20px}
+  .nav-r a:not(.nav-btn){display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">Than<em>.</em></a>
+  <div class="nav-r">
+    <a href="#services">Services</a>
+    <a href="#produits">Produits</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="nav-btn">Demander un devis</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-l">
+    <div class="badge"><span class="badge-dot"></span>Disponible pour missions</div>
+    <h1>Vos outils Excel<br>& IA, livrés<br><span class="serif">en 48h</span></h1>
+    <p class="hero-sub">Je crée des fichiers Excel professionnels et des automatisations IA sur mesure pour les PME et auto-entrepreneurs. Vous gagnez du temps, je m'occupe du reste.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-dark">Démarrer un projet →</a>
+      <a href="#produits" class="btn-ghost">Voir les outils</a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="excel-mock">
+      <div class="mock-bar">
+        <div class="mdot" style="background:#FF5F57"></div>
+        <div class="mdot" style="background:#FEBC2E"></div>
+        <div class="mdot" style="background:#28C840"></div>
+        <span class="mock-title">Supplier Dashboard — Thanuchan.xlsx</span>
+      </div>
+      <div class="mock-tabs">
+        <div class="mock-tab a">📋 Fournisseurs</div>
+        <div class="mock-tab">🛒 Commandes</div>
+        <div class="mock-tab">⭐ Scoring</div>
+        <div class="mock-tab">🚨 Alertes</div>
+      </div>
+      <div class="mock-body">
+        <div class="mock-thead">
+          <span>Fournisseur</span><span>Délai</span><span>Score</span><span>Statut</span>
+        </div>
+        <div class="mock-row"><span>Logistrans SAS</span><span style="color:#999">3j</span><span class="mscore">4.3</span><span><div class="pill g">✓ Actif</div></span></div>
+        <div class="mock-row"><span>PackPro Europe</span><span style="color:#999">5j</span><span class="mscore">4.6</span><span><div class="pill g">✓ Actif</div></span></div>
+        <div class="mock-row"><span>Sino Supply Co.</span><span style="color:#999">21j</span><span class="mscore" style="color:#D97706">2.7</span><span><div class="pill y">⚠ Moyen</div></span></div>
+        <div class="mock-row"><span>MétalFrance</span><span style="color:#999">7j</span><span class="mscore" style="color:#DC2626">2.0</span><span><div class="pill r">✗ Suspendu</div></span></div>
+        <div class="mock-row"><span>TechComp Ltd</span><span style="color:#999">14j</span><span class="mscore">3.5</span><span><div class="pill g">✓ Actif</div></span></div>
+        <div class="mock-alert">⚠️ MétalFrance — retard 18 jours détecté automatiquement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="trust-item"><span>⚡</span>Livraison 24–48h</div>
+  <div class="trust-item"><span>🔧</span>100% sur mesure</div>
+  <div class="trust-item"><span>♾️</span>Révisions incluses</div>
+  <div class="trust-item"><span>🎓</span>Master Supply Chain</div>
+  <div class="trust-item"><span>🤖</span>Propulsé par Claude AI</div>
+</div>
+
+<section class="services" id="services">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-tag">Ce que je fais</div>
+    <h2>Mes services</h2>
+    <p class="section-sub">Des solutions concrètes adaptées à votre activité, sans jargon, sans prise de tête.</p>
+    <div class="svcs">
+      <div class="svc">
+        <div class="svc-n">01</div>
+        <div class="svc-t">Templates Excel pro</div>
+        <div class="svc-d">Tableaux de bord avec formules automatiques, alertes visuelles, mises en forme soignées. Prêts à l'emploi, zéro compétence Excel requise.</div>
+        <div class="tags"><span class="tag">Suivi fournisseurs</span><span class="tag">Gestion stocks</span><span class="tag">Trésorerie</span><span class="tag">Reporting</span></div>
+      </div>
+      <div class="svc">
+        <div class="svc-n">02</div>
+        <div class="svc-t">Automatisation IA</div>
+        <div class="svc-d">J'identifie vos tâches répétitives et les automatise avec l'IA. Réponses emails, analyses, rapports — gagnez des heures chaque semaine.</div>
+        <div class="tags"><span class="tag">Claude AI</span><span class="tag">Zapier</span><span class="tag">Workflows</span><span class="tag">No-code</span></div>
+      </div>
+      <div class="svc">
+        <div class="svc-n">03</div>
+        <div class="svc-t">Sur mesure selon vos besoins</div>
+        <div class="svc-d">Suivi de chantier, gestion RH, calcul de marges, CRM simple, planning équipe... Décrivez votre besoin, je construis exactement ce qu'il vous faut.</div>
+        <div class="tags"><span class="tag">Devis gratuit</span><span class="tag">Livraison rapide</span><span class="tag">Support 7j</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="produits">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-tag">Produits disponibles</div>
+    <h2>Téléchargement immédiat</h2>
+    <p class="section-sub">Des outils prêts à l'emploi, créés avec soin. Achetez une fois, utilisez pour toujours.</p>
+    <div class="prods">
+
+      <div class="prod hot">
+        <div class="prod-badge">Best-seller</div>
+        <div class="prod-img i1"><div class="glow b"></div><span class="prod-emoji">📦</span></div>
+        <div class="prod-body">
+          <h3>Supplier Dashboard Excel</h3>
+          <p>Gérez tous vos fournisseurs en un seul fichier. 5 onglets complets, tout est automatisé.</p>
+          <div class="feats">
+            <div class="feat">Fiches fournisseurs avec scoring qualité</div>
+            <div class="feat">Suivi commandes + alertes retard automatiques</div>
+            <div class="feat">Historique des prix avec évolution 📈</div>
+            <div class="feat">Centre d'alertes visuel</div>
+          </div>
+          <div class="prod-foot">
+            <div class="price">20€ <span>/ téléchargement immédiat</span></div>
+            <a href="https://thanuchan.gumroad.com/l/yhvwg" target="_blank" class="btn-buy">Acheter →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod">
+        <div class="prod-img i2"><div class="glow g"></div><span class="prod-emoji">⚙️</span></div>
+        <div class="prod-body">
+          <h3>Excel sur mesure — À la demande</h3>
+          <p>Un besoin précis ? Je crée votre fichier exactement comme vous le voulez. Suivi de chantier, planning, gestion de stock, devis clients...</p>
+          <div class="feats">
+            <div class="feat">Brief gratuit en 15 min</div>
+            <div class="feat">Livraison en 24–48h</div>
+            <div class="feat">Révisions incluses</div>
+            <div class="feat">Support 7 jours après livraison</div>
+          </div>
+          <div class="prod-foot">
+            <div class="price">Sur devis <span>/ dès 30€</span></div>
+            <a href="#contact" class="btn-buy">Demander →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod">
+        <div class="prod-img i3"><div class="glow p"></div><span class="prod-emoji">🤖</span></div>
+        <div class="prod-body">
+          <h3>Pack Automatisation IA — Bientôt</h3>
+          <p>Workflows et prompts IA prêts à l'emploi pour automatiser vos tâches. Réponses clients, résumés réunions, rapports automatiques.</p>
+          <div class="feats">
+            <div class="feat">Prompts optimisés pour Claude AI</div>
+            <div class="feat">Workflows Zapier clé en main</div>
+            <div class="feat">Guide d'utilisation inclus</div>
+          </div>
+          <div class="prod-foot">
+            <div class="price">Bientôt <span>/ ~30€</span></div>
+            <span class="btn-soon">Être alerté</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod">
+        <div class="prod-img i4"><div class="glow a"></div><span class="prod-emoji">🚚</span></div>
+        <div class="prod-body">
+          <h3>Audit Supply Chain — Service</h3>
+          <p>Master Supply Chain en poche. J'analyse vos flux fournisseurs, vos stocks et délais pour identifier des gains concrets et rapides.</p>
+          <div class="feats">
+            <div class="feat">Analyse complète de vos fournisseurs</div>
+            <div class="feat">Rapport avec recommandations actionnables</div>
+            <div class="feat">Outils Excel livrés avec l'audit</div>
+          </div>
+          <div class="prod-foot">
+            <div class="price">Sur devis <span>/ dès 80€</span></div>
+            <a href="#contact" class="btn-buy">En savoir plus →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="custom-cta">
+      <div>
+        <h3>Vous avez un besoin spécifique ?</h3>
+        <p>Décrivez-moi ce dont vous avez besoin et je vous réponds avec un devis en moins de 24h. Gratuit et sans engagement.</p>
+      </div>
+      <a href="#contact" class="btn-white">Demander un devis gratuit</a>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-tag">Comment ça marche</div>
+    <h2>Simple, rapide, efficace</h2>
+    <p class="section-sub">4 étapes pour avoir votre outil livré.</p>
+    <div class="how-steps">
+      <div class="step"><div class="step-n">1</div><h4>On discute</h4><p>Vous m'expliquez votre besoin par message ou en 15 min. Je pose les bonnes questions.</p></div>
+      <div class="step"><div class="step-n">2</div><h4>Je propose</h4><p>Devis clair avec délai et prix. Pas de surprise, pas de jargon inutile.</p></div>
+      <div class="step"><div class="step-n">3</div><h4>Je crée</h4><p>Je construis votre outil en 24 à 48h. Vous validez, je corrige si besoin.</p></div>
+      <div class="step"><div class="step-n">4</div><h4>Vous utilisez</h4><p>Livraison + explication rapide. Support inclus 7 jours. Vous êtes autonome.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="section-tag">Contact</div>
+    <h2>Parlons de votre projet</h2>
+    <p class="section-sub">Un besoin d'automatisation, un fichier Excel sur mesure ou une question ? Je réponds rapidement.</p>
+    <div class="ccard">
+      <div class="copts">
+        <a href="mailto:thanuchan37@icloud.com" class="copt">
+          <div class="cicon">📧</div>
+          <div class="cinfo"><div class="clabel">Email</div><div class="cval">thanuchan37@icloud.com</div></div>
+        </a>
+        <a href="https://thanuchan.gumroad.com" target="_blank" class="copt">
+          <div class="cicon">🛒</div>
+          <div class="cinfo"><div class="clabel">Boutique</div><div class="cval">thanuchan.gumroad.com</div></div>
+        </a>
+        <a href="https://www.facebook.com" target="_blank" class="copt">
+          <div class="cicon">💬</div>
+          <div class="cinfo"><div class="clabel">Facebook</div><div class="cval">Me contacter en message privé</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div clas
